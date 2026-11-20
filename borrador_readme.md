@@ -11,6 +11,7 @@ _ Docentes: Juan Manuel Cabezas Contardo, Pedro Pesante
 Requisitos necesarios para ejecutarse:
 
 _ Lenguaje: Python 3.10 o superior.
+
 _ Instalación de dependencias:
 
 pip install -r requirements.txt
