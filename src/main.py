@@ -1,4 +1,4 @@
-from pathlib import path
+from pathlib import Path
 import csv
 import numpy as np
 
@@ -15,10 +15,10 @@ from verificacion import (
 
 
 
-def obtener_rutas_proyecto() -> dict[str, path]:
+def obtener_rutas_proyecto() -> dict[str, Path]:
 
     """ Resuelve las rutas base del repositario de forma independiente al directorio actual."""
-    raiz = path(__file__).resolve().parent.parent
+    raiz = Path(__file__).resolve().parent.parent
     return {
         "raiz": raiz,
         "datos": raiz / "datos",
@@ -26,30 +26,31 @@ def obtener_rutas_proyecto() -> dict[str, path]:
         "resultados": raiz / "resultados",
     }
 
-def cargar_matriz_csv(ruta_csv:path) -> np.ndarray:
-    """ Leer una matriz numerica dresde CSV, manteniendo precision float64."""
+def cargar_matriz_csv(ruta_csv: Path) -> np.ndarray:
+    """Lee una matriz numérica desde CSV, manteniendo precisión float64."""
     filas: list[list[float]] = []
     with ruta_csv.open(mode="r", newline="", encoding="utf-8") as archivo:
         lector = csv.reader(archivo)
         for fila in lector:
-            if fila and not fila[0].strip().startwith("#"):
-                filas.append([float(valor) for valor in fila])
-                return np.array(filas, dtype=np.float64)
+            if fila and not fila[0].strip().startswith("#"):
+                filas.append([float(valor.strip()) for valor in fila])
+    return np.array(filas, dtype=np.float64)
 
-def cargar_vector_csv(ruta_csv:path) -> np.ndarray:
-    """Leer le vector b dresde CSV mantininedo percisoin mario64."""
+
+def cargar_vector_csv(ruta_csv: Path) -> np.ndarray:
+    """Lee el vector b desde CSV manteniendo precisión float64."""
     valores: list[float] = []
     with ruta_csv.open(mode="r", newline="", encoding="utf-8") as archivo:
         lector = csv.reader(archivo)
         for fila in lector:
-            if fila and not fila[0].strip().startwith("#"):
+            if not fila or fila[0].strip().startswith("#"):
                 continue
-            #Ayuda a soportar tanto filas de un unnico valor como filos y con indice y valo
+            # Soporta tanto filas de un único valor como filas con índice y valor
             celda = fila[-1].strip()
             valores.append(float(celda))
     return np.array(valores, dtype=np.float64)
 
-def guardar_solucion_csv(ruta_csv:path, x_sin_piv: np.ndarray, x_con_piv: np.ndarray) -> None:
+def guardar_solucion_csv(ruta_csv:Path, x_sin_piv: np.ndarray, x_con_piv: np.ndarray) -> None:
     """Guarda las soluciones obtenidas en resultados / solicion.csv."""
     with ruta_csv.open(mode="w", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
@@ -65,13 +66,13 @@ def main() -> None:
     ruta_a = rutas["datos"] / "matriz_a.csv"
     ruta_b = rutas["datos"] / "vector_b.csv"
 
-    a = cargar_matriz_csv(ruta_a) 
+    a = cargar_matriz_csv(ruta_a)
     b = cargar_vector_csv(ruta_b)
 
-    # 1. Corrida sin pivoteo
+# 1. Corrida sin pivoteo
     contador_sin_piv = ContadorFlops(convencion="1 operacion aritmetica elemental = 1 flop")
-    U_sin_piv, b_sin_piv = traza_sin_piv, stats_sin_piv = eliminacion_gaussiana(
-        a, b, pivoteo ="ninguno", contador=contador_sin_piv
+    U_sin_piv, b_sin_piv, traza_sin_piv, stats_sin_piv = eliminacion_gaussiana(
+        a, b, pivoteo="ninguno", contador=contador_sin_piv
     )
     x_sin_piv = sustitucion_regresiva(U_sin_piv, b_sin_piv, contador=contador_sin_piv)
 
@@ -132,4 +133,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    
+
