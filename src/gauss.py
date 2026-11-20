@@ -1,3 +1,8 @@
+
+import numpy as np
+from conteo import ContadorFlops
+
+
 def formatear_matriz(M: np.ndarray, decimales: int = 4) -> str:
     """Formatea una matriz de forma legible para la traza de pasos."""
     lineas = []
@@ -10,7 +15,7 @@ def eliminacion_gaussiana(
         a: np.ndarray,
         b: np.ndarray,
         pivoteo: str = "ninguno",
-        contador: Contadorflops | None = None
+        contador: ContadorFlops | None = None
 ) -> tuple[np.ndarray, np.ndarray, str, dict]:
     """ Lleva "a" una forma triangular superior "U" y actualiza "b".
     pivoteo: "ninguno" o "parcial escalado"."
@@ -38,7 +43,7 @@ def eliminacion_gaussiana(
     for k in range(n-1):
         paso_num = k + 1 #Pasos 1 a 11 para realizar n=12
 
-        if pivoteo == "parcial escalado":
+        if pivoteo == "parcial_escalado":
             fila_pivote = k
             mejor_razon = -1.0
             for i in range(k,n):
@@ -115,7 +120,7 @@ def eliminacion_gaussiana(
 def sustitucion_regresiva(
         U: np.ndarray,
         b_mod: np.ndarray,
-        contador: contadorflops | None = None,
+        contador: ContadorFlops | None = None,
 ) -> np.ndarray:
     """Resuelve Ux = b_mod mediante sustitucion regresiva."""
     n = U.shape[0]

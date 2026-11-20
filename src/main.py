@@ -29,7 +29,7 @@ def obtener_rutas_proyecto() -> dict[str, Path]:
 def cargar_matriz_csv(ruta_csv: Path) -> np.ndarray:
     """Lee una matriz numérica desde CSV, manteniendo precisión float64."""
     filas: list[list[float]] = []
-    with ruta_csv.open(mode="r", newline="", encoding="utf-8") as archivo:
+    with ruta_csv.open(mode="r", newline="", encoding="utf-8-sig") as archivo:
         lector = csv.reader(archivo)
         for fila in lector:
             if fila and not fila[0].strip().startswith("#"):
@@ -40,12 +40,11 @@ def cargar_matriz_csv(ruta_csv: Path) -> np.ndarray:
 def cargar_vector_csv(ruta_csv: Path) -> np.ndarray:
     """Lee el vector b desde CSV manteniendo precisión float64."""
     valores: list[float] = []
-    with ruta_csv.open(mode="r", newline="", encoding="utf-8") as archivo:
+    with ruta_csv.open(mode="r", newline="", encoding="utf-8-sig") as archivo:
         lector = csv.reader(archivo)
         for fila in lector:
             if not fila or fila[0].strip().startswith("#"):
                 continue
-            # Soporta tanto filas de un único valor como filas con índice y valor
             celda = fila[-1].strip()
             valores.append(float(celda))
     return np.array(valores, dtype=np.float64)
