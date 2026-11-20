@@ -122,13 +122,45 @@ def main() -> None:
 
     print("Ejecucion completada. Archivos generados en 'resutados/'.")
 
-    def formatear_matriz(M: np.ndarray, decimales: int = 4) -> str:
-        """Formatea una matriz de forma legible para la traza de pasos."""
-        lineas = []
-        for fila in M:
-            elementos = " ".join(f"{val:{decimales + 7}.{decimales}e}" for val in fila)
-            lineas.append(f"[{elementos}]")
-        return "\n".join(lineas)
+def formatear_matriz(M: np.ndarray, decimales: int = 4) -> str:
+    """Formatea una matriz de forma legible para la traza de pasos."""
+    lineas = []
+    for fila in M:
+        elementos = " ".join(f"{val:{decimales + 7}.{decimales}e}" for val in fila)
+        lineas.append(f"[{elementos}]")
+    return "\n".join(lineas)
+
+def eliminacion_gaussiana(
+        a: np.ndarray,
+        b: np.ndarray,
+        pivoteo: str = "ninguno",
+        contador: Contadorflops | None = None
+) -> tuple[np.ndarray, np.ndarray, str, dict]:
+    """ Lleva A a una forma triangular superior U y actualiza b.
+    pivoteo: "ninguno" o "parcial escalado"."
+    retorna: (U, b_modificado, traza, estadisticas)
+    """
+    U = np.array(a, dtype=np.float64, copy=True)
+    rhs = np.array(b, dtype=np.float64, copy=True)
+    n = U.shape[0]
+
+    max_inicial = float(np.max(np.abs(U)))
+    max_durante_elim = max_inicial
+    max_multiplicador = 0.0
+    total_intercambios = 0
+
+    # Factores de escala por fila (maximo absoluto de cada fila al inicio)
+    #Se usan unicamente si pivoteo == "parcial_escalado"
+    escalas = np.max(np.abs(U), axis=1)
+    
+    traza_lineas: list[str]= [
+        f"matriz inicial A (max |a_ij| = {max_inicial:.6e}):",
+        formatear_matriz(U),
+        "",
+    ]
+
+    for k in range(n-1):
+
 
 
 
