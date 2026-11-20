@@ -1,6 +1,11 @@
 #Extencion de verificacion
 
 import numpy as np
+import csv
+from decimal import Decimal, getcontext
+from pathlib import Path
+
+
 
 def estimar_condicionamiento(A: np.ndarray) -> dict[str, float]:
     """
@@ -18,3 +23,28 @@ def estimar_condicionamiento(A: np.ndarray) -> dict[str, float]:
         "cota_error_relativo": cota_error_relativo,
     }
 
+def cargar_a_decimal(ruta_a: Path, precision_digitos: int = 80) -> list[list[Decimal]]:
+    """Carga la matriz A desde CSV en precisión decimal extendida sin truncar."""
+    getcontext().prec = precision_digitos
+    matriz_dec: list[list[Decimal]] = []
+    with ruta_a.open(mode="r", newline="", encoding="utf-8") as archivo:
+        lector = csv.reader(archivo)
+        for fila in lector:
+            if fila and not fila[0].strip().startswith("#"):
+                matriz_dec.append([Decimal(valor.strip()) for valor in fila])
+    return matriz_dec
+
+def cargar_b_decimal(ruta_b: Path, precision_digitos: int = 80) -> list[Decimal]:
+    """Carga el vector b desde CSV en precisión decimal extendida sin truncar."""
+    getcontext().prec = precision_digitos
+    vector_dec: list[Decimal] = []
+    with ruta_b.open(mode="r", newline="", encoding="utf-8") as archivo:
+        lector = csv.reader(archivo)
+        for fila in lector:
+            if not fila or fila[0].strip().startswith("#"):
+                continue
+            vector_dec.append(Decimal(fila[-1].strip()))
+    return vector_dec
+
+
+pass
