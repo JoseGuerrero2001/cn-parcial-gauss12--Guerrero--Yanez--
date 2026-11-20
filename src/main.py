@@ -122,6 +122,16 @@ def main() -> None:
 
     print("Ejecucion completada. Archivos generados en 'resutados/'.")
 
+    def formatear_matriz(M: np.ndarray, decimales: int = 4) -> str:
+        """Formatea una matriz de forma legible para la traza de pasos."""
+        lineas = []
+        for fila in M:
+            elementos = " ".join(f"{val:{decimales + 7}.{decimales}e}" for val in fila)
+            lineas.append(f"[{elementos}]")
+        return "\n".join(lineas)
+
+
+
 if __name__ == "__main__":
     main()
     
