@@ -160,6 +160,27 @@ def eliminacion_gaussiana(
     ]
 
     for k in range(n-1):
+        paso_num = k + 1 #Pasos 1 a 11 para realizar n=12
+
+        if pivoteo == "parcial escalado":
+            fila_pivote = k
+            mejor_razon = -1.0
+            for i in range(k,n):
+                if contador is not None:
+                    contador.registrar_comparacion_pivote(paso_num, 1)
+                escala_i = escalas[i] if escalas [i] != 0.0 else 1.0
+                razon = abs(U[i,k]) / escala_i
+                if razon > mejor_razon:
+                    mejor_razon = razon
+                    fila_pivote = i
+
+            if fila_pivote != k:
+                U[[k, fila_pivote], :] = U[[fila_pivote, k], :]
+                rhs[[k, fila_pivote]] = rhs [[fila_pivote, k]]
+                escalas[[k, fila_pivote]] = escalas[[fila_pivote, k]]
+                total_intercambios +=1
+                if contador is not None:
+                    contador.registrar_intercambio_fila(paso_num, 1)
 
 
 
