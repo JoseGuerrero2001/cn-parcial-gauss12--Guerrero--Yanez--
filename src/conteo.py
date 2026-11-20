@@ -30,7 +30,27 @@ class ContadorFlops:
             }
         return self.pasos[paso]
 
-    
+
+    def registrar_mult_div(self, paso: int | None, cantidad: int = 1) -> None:
+        if paso is None:
+            self.sust_mult_div += cantidad
+        else:
+            self._asegurar_paso(paso)["mult_div"] += cantidad
+
+    def registrar_suma_resta(self, paso: int | None, cantidad: int = 1) -> None:
+        if paso is None:
+            self.sust_suma_resta += cantidad
+        else:
+            self._asegurar_paso(paso)["suma_resta"] += cantidad
+
+    def registrar_comparacion_pivote(self, paso: int, cantidad: int = 1) -> None:
+        self._asegurar_paso(paso)["comp_pivote"] += cantidad
+        self.total_comp_pivote += cantidad
+
+    def registrar_intercambio_fila(self, paso: int, cantidad: int = 1) -> None:
+        self._asegurar_paso(paso)["intercambios"] += cantidad
+        self.total_intercambios += cantidad
+
         pass
 
 
