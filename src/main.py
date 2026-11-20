@@ -135,7 +135,7 @@ def eliminacion_gaussiana(
         pivoteo: str = "ninguno",
         contador: Contadorflops | None = None
 ) -> tuple[np.ndarray, np.ndarray, str, dict]:
-    """ Lleva A a una forma triangular superior U y actualiza b.
+    """ Lleva "a" una forma triangular superior "U" y actualiza "b".
     pivoteo: "ninguno" o "parcial escalado"."
     retorna: (U, b_modificado, traza, estadisticas)
     """
