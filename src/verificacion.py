@@ -80,5 +80,58 @@ def calcular_residuo_extendido(
 
 
 
+def refinamiento_iterativo(
+    ruta_a: Path,
+    ruta_b: Path,
+    x_inicial: np.ndarray,
+    fn_eliminacion,
+    fn_sustitucion,
+    max_pasadas: int = 3,
+    precision_digitos: int = 80,
+    ) -> tuple[np.ndarray, Decimal, int]:
+    """
+    Aplica refinamiento iterativo usando el residuo r = b - Ax calculado en
+    precision extendida y resolviendo A * delta_x = r en float64.
+    Retorna: (x_mejorado, norma_inf_final, pasadas_ejecutadas)
+    """
+    getcontext().prec = precision_digitos
+    A_fp64 = cargar_a_decimal(ruta_a, precision_digitos=precision_digitos)
+    A_num = np.array([[float(val) for val in fila] for fila in A_fp64], dtype=np.float64)
+
+    x_actual = np.array(x_inicial, dtype=np.float64, copy=True)
+    _, norma_inf_actual = calcular_residuo_extendido(
+        ruta_a, ruta_b, x_actual, precision_digitos=precision_digitos
+    )
+
+    pasadas = 0
+    for _ in range(max_pasadas):
+        residuo_dec, _ = calcular_residuo_extendido(
+            ruta_a, ruta_b, x_actual, precision_digitos=precision_digitos
+        )
+        r_num = np.array([float(val) for val in residuo_dec], dtype=np.float64)
+
+        U_aux, r_mod, _, _ = fn_eliminacion(A_num, r_num, pivoteo="parcial_escalado", contador=None)
+        delta_x = fn_sustitucion(U_aux, r_mod, contador=None)
+
+        x_candidato = x_actual + delta_x
+        _, norma_inf_candidato = calcular_residuo_extendido(
+            ruta_a, ruta_b, x_candidato, precision_digitos=precision_digitos
+        )
+
+        pasadas += 1
+        # Solo aceptamos la corrección si reduce la norma infinito del residuo
+        if norma_inf_candidato < norma_inf_actual:
+            x_actual = x_candidato
+            norma_inf_actual = norma_inf_candidato
+        else:
+            break
+
+    return x_actual, norma_inf_actual, pasadas
+
+
+def control_biblioteca(A: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """Solucion de referencia de control usando numpy.linalg.solve."""
+    return np.linalg.solve(np.array(A, dtype=np.float64), np.array(b, dtype=np.float64))
+
 
 pass
