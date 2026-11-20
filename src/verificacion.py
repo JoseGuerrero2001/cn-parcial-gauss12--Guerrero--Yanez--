@@ -28,7 +28,7 @@ def cargar_a_decimal(ruta_a: Path, precision_digitos: int = 80) -> list[list[Dec
     """Carga la matriz A desde CSV en precision decimal extendida sin truncar."""
     getcontext().prec = precision_digitos
     matriz_dec: list[list[Decimal]] = []
-    with ruta_a.open(mode="r", newline="", encoding="utf-8") as archivo:
+    with ruta_a.open(mode="r", newline="", encoding="utf-8-sig") as archivo:
         lector = csv.reader(archivo)
         for fila in lector:
             if fila and not fila[0].strip().startswith("#"):
@@ -40,7 +40,7 @@ def cargar_b_decimal(ruta_b: Path, precision_digitos: int = 80) -> list[Decimal]
     """Carga el vector b desde CSV en precision decimal extendida sin truncar."""
     getcontext().prec = precision_digitos
     vector_dec: list[Decimal] = []
-    with ruta_b.open(mode="r", newline="", encoding="utf-8") as archivo:
+    with ruta_b.open(mode="r", newline="", encoding="utf-8-sig") as archivo:
         lector = csv.reader(archivo)
         for fila in lector:
             if not fila or fila[0].strip().startswith("#"):

@@ -1,0 +1,22 @@
+condicionamiento kappa_2(a): 3.084744e+13
+cota kappa(a) * eps: 6.849507e-03
+norma infinito residuo inicial ||b - Ax||_inf: 3.49580233174E-10
+iteraciones de refinamiento iterativo: 2
+norma infinito residuo tras refinado: 0
+vector residuo inicial r = b - Ax:
+ r[1] = -8.5799743520E-21
+ r[2] = -8.0615710890E-12
+ r[3] = -4.50243236256E-18
+ r[4] = 5.01444489289E-12
+ r[5] = -8.17406337413E-20
+ r[6] = 3.49580233174E-10
+ r[7] = -1.33367217013E-17
+ r[8] = 2.70126342603E-11
+ r[9] = -2.24554422482E-20
+ r[10] = -3.53517596666E-12
+ r[11] = 9.91953199665E-18
+ r[12] = 5.27113313705E-11
+
+Conparacion normal L2 fentre a numpy.linalg.solve:
+ ||x_piv - x_ref||_2 = 1.035324e-13
+ ||x_refinado - x_ref||_2 = 1.344480e-12

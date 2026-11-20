@@ -4,7 +4,7 @@ En el presente código, se presencia una implementacion en Python de eliminacion
 y verificación en precisión extendida para un sistema lineal mal condicionado que posee 12 incógnitas.
 
 Autoría y asignatura:
-_ Estudiantes: [E], [José Armando Guerrero Castillo]
+_ Estudiantes: [Ricardo Yañez Vega], [José Armando Guerrero Castillo]
 _ Asignatura: Computación Numérica (INF-321) - Ing. Civil Informática, Universidad Católica del Maule (UCM)
 _ Docentes: Juan Manuel Cabezas Contardo, Pedro Pesante
 
