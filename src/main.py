@@ -2,7 +2,7 @@ from pathlib import path
 import csv
 import numpy as np
 
-from conteo import contadorflops
+from conteo import ContadorFlops
 from gauss import eliminacion_gaussiana,sustitucion_regresiva
 from verificacion import (
     estimar_condicionamiento,
@@ -10,7 +10,12 @@ from verificacion import (
     refinamiento_iterativo,
     control_biblioteca
 )
-def obtener_rutas_proyecto() dict[str, path]:
+
+
+
+
+
+def obtener_rutas_proyecto() -> dict[str, path]:
 
     """ Resuelve las rutas base del repositario de forma independiente al directorio actual."""
     raiz = path(__file__).resolve().parent.parent
@@ -49,8 +54,8 @@ def guardar_solucion_csv(ruta_csv:path, x_sin_piv: np.ndarray, x_con_piv: np.nda
     with ruta_csv.open(mode="w", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
         escritor.writerow(["incognita", "x_sin_pivoteo", "x_pivoteo_escalado"])
-        for i in range(len(x_piv)):
-            escritor.writerow([f"x{i + 1}", f"{x_sin_piv[i]:.16e}", f"{x_piv[i]:.16e}"])
+        for i in range(len(x_con_piv)):
+            escritor.writerow([f"x{i + 1}", f"{x_sin_piv[i]:.16e}", f"{x_con_piv[i]:.16e}"])
 
 def main() -> None:
     rutas = obtener_rutas_proyecto()
@@ -65,7 +70,7 @@ def main() -> None:
 
     # 1. Corrida sin pivoteo
     contador_sin_piv = ContadorFlops(convencion="1 operacion aritmetica elemental = 1 flop")
-    U_sin_piv, b_sin_piv = traz_sin_piv, stats_sin_piv = eliminacion_gaussiana(
+    U_sin_piv, b_sin_piv = traza_sin_piv, stats_sin_piv = eliminacion_gaussiana(
         a, b, pivoteo ="ninguno", contador=contador_sin_piv
     )
     x_sin_piv = sustitucion_regresiva(U_sin_piv, b_sin_piv, contador=contador_sin_piv)
@@ -121,7 +126,7 @@ def main() -> None:
 
     print("Ejecucion completada. Archivos generados en 'resutados/'.")
 
-                                        
+
 
 
 
