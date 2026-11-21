@@ -126,10 +126,6 @@ def main() -> None:
 
     print("Ejecucion completada. Archivos generados en 'resutados/'.")
 
-
-
-
-
 if __name__ == "__main__":
     main()
 
