@@ -10,7 +10,7 @@
 
 * **Fecha:** Talca, noviembre de 2026
 
-* **Repositorio Git:** `[Enlace al repositorio cn-parcial-gauss12-<apellido>]`
+* **Repositorio Git:** `[https://github.com/JoseGuerrero2001/cn-parcial-gauss12--Guerrero--Yanez--.git]`
 
 ## 2. Planteamiento
 
@@ -49,21 +49,21 @@ Para alcanzar el mínimo costo operacional en una matriz densa sin ceros, la imp
 ### Tabla paso a paso ($n = 12$)
 
 | Paso $k$ | Filas eliminadas ($n-k$) | Mult / Div ($A$ y $b$) | Sumas / Restas ($A$ y $b$) | Subtotal FLOPs | Comp. pivote (escalado) | Intercambios fila | 
-| ----- | ----- | ----- | ----- | ----- | ----- | ----- | 
-| 1 | 11 | 143 | 132 | 275 | 12 | `[0 o 1]` | 
-| 2 | 10 | 120 | 110 | 230 | 11 | `[0 o 1]` | 
-| 3 | 9 | 99 | 90 | 189 | 10 | `[0 o 1]` | 
-| 4 | 8 | 80 | 72 | 152 | 9 | `[0 o 1]` | 
-| 5 | 7 | 63 | 56 | 119 | 8 | `[0 o 1]` | 
-| 6 | 6 | 48 | 42 | 90 | 7 | `[0 o 1]` | 
-| 7 | 5 | 35 | 30 | 65 | 6 | `[0 o 1]` | 
-| 8 | 4 | 24 | 20 | 44 | 5 | `[0 o 1]` | 
-| 9 | 3 | 15 | 12 | 27 | 4 | `[0 o 1]` | 
-| 10 | 2 | 8 | 6 | 14 | 3 | `[0 o 1]` | 
-| 11 | 1 | 3 | 2 | 5 | 2 | `[0 o 1]` | 
-| **Eliminación** | **66 ceros** | **638** | **572** | **1210** | **77** | **`[Total]`** | 
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| 1 | 11 | 143 | 132 | 275 | 12 | `[0 o 1]` |
+| 2 | 10 | 120 | 110 | 230 | 11 | `[0 o 1]` |
+| 3 | 9 | 99 | 90 | 189 | 10 | `[0 o 1]` |
+| 4 | 8 | 80 | 72 | 152 | 9 | `[0 o 1]` |
+| 5 | 7 | 63 | 56 | 119 | 8 | `[0 o 1]` |
+| 6 | 6 | 48 | 42 | 90 | 7 | `[0 o 1]` |
+| 7 | 5 | 35 | 30 | 65 | 6 | `[0 o 1]` |
+| 8 | 4 | 24 | 20 | 44 | 5 | `[0 o 1]` |
+| 9 | 3 | 15 | 12 | 27 | 4 | `[0 o 1]` |
+| 10 | 2 | 8 | 6 | 14 | 3 | `[0 o 1]` |
+| 11 | 1 | 3 | 2 | 5 | 2 | `[0 o 1]` |
+| **Eliminación** | **66 ceros** | **638** | **572** | **1210** | **77** | **`[Total]`** |
 | **Sustitución** | — | **78** | **66** | **144** | — | — | 
-| **Total general** | — | **716** | **638** | **1354** | **77** | **`[Total]`** | 
+| **Total general** | — | **716** | **638** | **1354** | **77** | **`[Total]`** |
 
 *(Nota: Ajustar los valores finales de esta tabla con la salida exacta de `resultados/conteo_flops.md` tras ejecutar `python src/main.py`, verificando el conteo de actualización de* $b$ *en los 11 pasos).*
 
@@ -77,13 +77,13 @@ Para alcanzar el mínimo costo operacional en una matriz densa sin ceros, la imp
 
 ### Comparación cuantitativa entre corridas
 
-| Indicador | Corrida 1: Sin pivoteo | Corrida 2: Pivoteo parcial escalado | 
+| Indicador | Corrida 1: Sin pivoteo | Corrida 2: Pivoteo parcial escalado 
 | ----- | ----- | ----- | 
-| Pivote en paso 1 ($a_{1,1}$) | $1.3407 \times 10^{-8}$ (fila 1) | $-8.295805 \times 10^{4}$ | 
-| Multiplicador máximo ($\max \vert{}m_{ik}\vert{}$) | $\approx 2.75 \times 10^{13}$ | $2.465558 \times 10^{9}$ | 
+| Pivote en paso 1 ($a_{1,1}$) | $1.3407 \times 10^{-8}$ (fila 1) | $-8.295805 \times 10^{4}$ |
+| Multiplicador máximo ($\max \vert{}m_{ik}\vert{}$) | $\approx 2.75 \times 10^{13}$ | $2.465558 \times 10^{9}$ |
 | Factor de crecimiento ($\rho$) | $\approx 2.6 \times 10^3$ | $1.783202$ |
-| Bits de mantisa perdidos estimados | $\approx 44\text{ a }45\text{ bits}$ | $\approx 13\text{ a }20\text{ bits}$ | 
-| Dígitos significativos recuperados | $6\text{ a }7\text{ dígitos}$ | $9\text{ a }12\text{ dígitos}$ | 
+| Bits de mantisa perdidos estimados | $\approx 44\text{ a }45\text{ bits}$ | $\approx 13\text{ a }20\text{ bits}$ |
+| Dígitos significativos recuperados | $6\text{ a }7\text{ dígitos}$ | $9\text{ a }12\text{ dígitos}$ |
 
 ### Por qué el pivote $a_{1,1}$ es inaceptable y pérdida de bits
 
