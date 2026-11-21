@@ -56,7 +56,7 @@ x12
 
 _ Total de FLOP's aritméticos: 1486 operaciones elementales (eliminación + actualización 
 de b + sustitución regresiva), más 66 comparaciones de pivoteo.
-_ Norma infinito del residuo (||b - Ax||∞): 
+_ Norma infinito del residuo (||b - Ax||∞):
 
 
 Documentación de elementos técnicos:
