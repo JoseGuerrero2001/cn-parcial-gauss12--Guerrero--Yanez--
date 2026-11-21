@@ -1,91 +1,73 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "id": "e8bf922d",
-   "metadata": {},
-   "source": [
-    "# El Pivote: Eliminación Gaussiana en Sistema Denso 12×12\n",
-    "\n",
-    "Implementación en Python de eliminación gaussiana densa (sin pivoteo y con pivoteo parcial escalado) con instrumentación de FLOPs, control de mantisa y verificación en precisión extendida para un sistema lineal mal condicionado de 12 incógnitas.\n",
-    "\n",
-    "## Autoría y asignatura\n",
-    "\n",
-    "* **Estudiantes:** [Ricardo Yañez Vega], [Nombre Estudiante 2 (si aplica)]\n",
-    "* **Asignatura:** Computación Numérica (INF-321) — Ingeniería Civil Informática, Universidad Católica del Maule (UCM)\n",
-    "* **Docentes:** Juan Manuel Cabezas Contardo · Pedro Pesante\n",
-    "\n",
-    "## Requisitos\n",
-    "\n",
-    "* **Lenguaje:** Python 3.10 o superior.\n",
-    "* **Instalación de dependencias:**\n",
-    "\n",
-    "```bash\n",
-    "pip install -r requirements.txt\n",
-    "```\n",
-    "\n",
-    "## Ejecución\n",
-    "\n",
-    "Desde la raíz del repositorio, ejecuta el punto de entrada único:\n",
-    "\n",
-    "```bash\n",
-    "python src/main.py\n",
-    "```\n",
-    "\n",
-    "El comando lee `datos/matriz_a.csv` y `datos/vector_b.csv` y genera automáticamente en `resultados/`:\n",
-    "* `solucion.csv`: incógnitas $x_1 \\dots x_{12}$ sin pivoteo y refinadas con pivoteo parcial escalado.\n",
-    "* `traza_eliminacion.txt`: matrices resultantes tras cada uno de los 11 pasos de eliminación para ambas corridas.\n",
-    "* `conteo_flops.md`: desglose tabular de operaciones aritméticas y sobrecosto de pivoteo por paso.\n",
-    "* `residuo.txt`: número de condición $\\kappa_2(A)$, vector residuo $r = b - Ax$ en precisión extendida y su norma infinito.\n",
-    "\n",
-    "## Estructura de carpetas\n",
-    "\n",
-    "```text\n",
-    "cn-parcial-gauss12-<apellido>/\n",
-    "├─ readme.md        # Guía rápida de instalación, ejecución y resumen de resultados\n",
-    "├─ informe.md       # Informe técnico con análisis numérico, tablas y conclusiones\n",
-    "├─ requirements.txt # Dependencias con versión fija (numpy==2.1.3)\n",
-    "├─ datos/           # Matriz A (12x12) y vector b (20 dígitos) en formato CSV exacto\n",
-    "├─ src/             # Código fuente modular (main.py, gauss.py, conteo.py, verificacion.py)\n",
-    "├─ resultados/      # Salidas generadas automáticamente por main.py\n",
-    "└─ .gitignore       # Exclusión de caché, entornos virtuales y archivos temporales\n",
-    "```\n",
-    "\n",
-    "## Resultado resumido\n",
-    "\n",
-    "| Incógnita (10 dígitos)| Valor obtenido sin pivoteo |Valor obtenido con pivoteo escalado |\n",
-    "| :---: | :---: | :---: |\n",
-    "| $x_1$ | 7.3849156265112781e-01 | 7.3849156270000005e-01 |\n",
-    "| $x_2$ | -1.2059374162079353e+00 | -1.2059374168000001e+00 |\n",
-    "| $x_3$ | 4.3871955223470701e-03 | 4.3871952000000001e-03 |\n",
-    "| $x_4$ | -9.1726454005393726e-02 | -9.1726453799999996e-02 |\n",
-    "| $x_5$ | 2.8461093721963704e+00 | 2.8461093725000000e+00 |\n",
-    "| $x_6$ | -6.2815404284933315e-03 | -6.2815409000000003e-03 |\n",
-    "| $x_7$ | 1.4738205920014584e+00 | 1.4738205916000000e+00 |\n",
-    "| $x_8$ | -3.8492716339835142e-02 | -3.8492716400000002e-02 |\n",
-    "| $x_9$ | 9.1526480355326023e-01 | 9.1526480369999996e-01 |\n",
-    "| $x_{10}$ | -2.6071394855220578e+00 | -2.6071394851999998e+00 |\n",
-    "| $x_{11}$ | 5.1873629341623616e-02 | 5.1873629400000003e-02 |\n",
-    "| $x_{12}$ | -1.0849371627969857e+00 | -1.0849371624999999e+00 |\n",
-    "\n",
-    "* **Total de FLOPs aritméticos:** 1486 operaciones elementales (eliminación + actualización de $b$ + sustitución regresiva), más 66 comparaciones de pivoteo.\n",
-    "* **Norma infinito del residuo ($\\|b - Ax\\|_\\infty$):** `[Completar con valor de resultados/residuo.txt]`\n",
-    "\n",
-    "## Documentación técnica\n",
-    "\n",
-    "Para el análisis completo de error de redondeo, conteo paso a paso y condicionamiento, consultar el [informe técnico](informe.md).\n",
-    "\n",
-    "## Uso académico\n",
-    "\n",
-    "Material desarrollado exclusivamente con fines académicos para la evaluación parcial de Computación Numérica (INF-321), Universidad Católica del Maule, noviembre de 2026."
-   ]
-  }
- ],
- "metadata": {
-  "language_info": {
-   "name": "python"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+# El Pivote: Eliminación Gaussiana en Sistema Denso 12×12
+
+Implementación en Python de eliminación gaussiana densa (sin pivoteo y con pivoteo parcial escalado) con instrumentación de FLOPs, control de mantisa y verificación en precisión extendida para un sistema lineal mal condicionado de 12 incógnitas.
+
+## Autoría y asignatura
+
+* **Estudiantes:** [Ricardo Yañez Vega], [Nombre Estudiante 2 (si aplica)]
+* **Asignatura:** Computación Numérica (INF-321) — Ingeniería Civil Informática, Universidad Católica del Maule (UCM)
+* **Docentes:** Juan Manuel Cabezas Contardo · Pedro Pesante
+
+## Requisitos
+
+* **Lenguaje:** Python 3.10 o superior.
+* **Instalación de dependencias:**
+
+```bash
+pip install -r requirements.txt
+```
+
+## Ejecución
+
+Desde la raíz del repositorio, ejecuta el punto de entrada único:
+
+```bash
+python src/main.py
+```
+
+El comando lee `datos/matriz_a.csv` y `datos/vector_b.csv` y genera automáticamente en `resultados/`:
+* `solucion.csv`: incógnitas $x_1 \dots x_{12}$ sin pivoteo y refinadas con pivoteo parcial escalado.
+* `traza_eliminacion.txt`: matrices resultantes tras cada uno de los 11 pasos de eliminación para ambas corridas.
+* `conteo_flops.md`: desglose tabular de operaciones aritméticas y sobrecosto de pivoteo por paso.
+* `residuo.txt`: número de condición $\kappa_2(A)$, vector residuo $r = b - Ax$ en precisión extendida y su norma infinito.
+
+## Estructura de carpetas
+
+```text
+cn-parcial-gauss12-<apellido>/
+├─ readme.md        # Guía rápida de instalación, ejecución y resumen de resultados
+├─ informe.md       # Informe técnico con análisis numérico, tablas y conclusiones
+├─ requirements.txt # Dependencias con versión fija (numpy==2.1.3)
+├─ datos/           # Matriz A (12x12) y vector b (20 dígitos) en formato CSV exacto
+├─ src/             # Código fuente modular (main.py, gauss.py, conteo.py, verificacion.py)
+├─ resultados/      # Salidas generadas automáticamente por main.py
+└─ .gitignore       # Exclusión de caché, entornos virtuales y archivos temporales
+```
+
+## Resultado resumido
+
+| Incógnita (10 dígitos)| Valor obtenido sin pivoteo |Valor obtenido con pivoteo escalado |
+| :---: | :---: | :---: |
+| $x_1$ | 7.3849156265112781e-01 | 7.3849156270000005e-01 |
+| $x_2$ | -1.2059374162079353e+00 | -1.2059374168000001e+00 |
+| $x_3$ | 4.3871955223470701e-03 | 4.3871952000000001e-03 |
+| $x_4$ | -9.1726454005393726e-02 | -9.1726453799999996e-02 |
+| $x_5$ | 2.8461093721963704e+00 | 2.8461093725000000e+00 |
+| $x_6$ | -6.2815404284933315e-03 | -6.2815409000000003e-03 |
+| $x_7$ | 1.4738205920014584e+00 | 1.4738205916000000e+00 |
+| $x_8$ | -3.8492716339835142e-02 | -3.8492716400000002e-02 |
+| $x_9$ | 9.1526480355326023e-01 | 9.1526480369999996e-01 |
+| $x_{10}$ | -2.6071394855220578e+00 | -2.6071394851999998e+00 |
+| $x_{11}$ | 5.1873629341623616e-02 | 5.1873629400000003e-02 |
+| $x_{12}$ | -1.0849371627969857e+00 | -1.0849371624999999e+00 |
+
+* **Total de FLOPs aritméticos:** 1486 operaciones elementales (eliminación + actualización de $b$ + sustitución regresiva), más 66 comparaciones de pivoteo.
+* **Norma infinito del residuo ($\|b - Ax\|_\infty$):** `[Completar con valor de resultados/residuo.txt]`
+
+## Documentación técnica
+
+Para el análisis completo de error de redondeo, conteo paso a paso y condicionamiento, consultar el [informe técnico](informe.md).
+
+## Uso académico
+
+Material desarrollado exclusivamente con fines académicos para la evaluación parcial de Computación Numérica (INF-321), Universidad Católica del Maule, noviembre de 2026.
