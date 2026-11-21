@@ -14,7 +14,7 @@ _ Repositorio Git: []
 
 El problema consiste en resolver un sistema lineal denso Ax = b 
 de dimensión n = 12(144 entradas no nulas en A) utilizando eliminación gaussiana en aritmética 
-de punto flotante IEEE 754 de doble precisión (float64, mantisa de 53 bitsεmáq ≈ 2.22 x 10^-16).
+de punto flotante IEEE 754 de doble precisión (float64, mantisa de 53 bits ε máq ≈ 2.22 x 10^-16).
 
 La dificultad numérica del sistema proviene de tres factores estructurales presentes en los datos:
 
@@ -38,8 +38,11 @@ Para alcanzar el mínimo costo operacional en una matriz densa sin ceros, la imp
 src/gauss.py sigue estrictamente el esquema de eliminación hacia adelante en n-1 = 11 etapas 
 seguido de sustitución regresiva:
 
-- Cálculo único del multiplicador: En cada paso k 
--
--
--
-                                
+- Cálculo único del multiplicador: En cada paso k ε {1,...,11} y para cada
+fila i>k, el multiplicador m ik = a^(k) ik/a^(k) kk se calcula una sola vez y se almacena en memoria para actualizar toda la fila
+i y el término independiente b i. No se recalcula por columna.
+- Barrido exclusivo sobre la submatriz activa: Dado que los elementos a ik (i>k) quedan anulados por construcción, el bucle interno de actualización recorre
+únicamente las columnas j ε {k+1,...,n}, evitando operaciones redundantes sobre la subdiagonal ya eliminada.
+- Factorización única sin inversión: Se trabaja directamente sobre una copia de a y b sin construir A^-1
+- Pivoteo parcial escalado: Antes de eliminar en el paso k, se calcula el factor de escala inicial de cada fila s i = max 1≤j≤n |aij| y se selecciona la fila pivote p ≥ k
+que maximiza la razón $|(a_(pk)^(k))|/s_p$. Esto neutraliza las diferencias de escala entre filas antes de dividir.
