@@ -73,4 +73,74 @@ Indicador Corrida 1: Sin pivoteo  Corrida 2: Pivoteo parcial escalado
 
 Por qué el pivote $a_1,1$ es inaceptable y pérdida de bits
 
-En el paso k = 1 sin pivoteo, al eliminar $a_6,1$ = 3.69040121 x 10^5 usando $a_1,1$ = 1.3407 x 10^-8, el multiplicador alcanza $m_6,1$ ≈
+En el paso k = 1 sin pivoteo, al eliminar $a_6,1$ = 3.69040121 x 10^5 usando $a_1,1$ = 1.3407 x 10^-8, el multiplicador alcanza $m_6,1 ≈ 2.7526 x 10^13$.
+ Al efectuar $a_6,j$ $a_1,j$, el término escalado tiene magnitud $10^8$, mientras que $a_6,j$ es de orden 10^5. 
+ La diferencia de exponentes $(log_2 (2.75 x 10^13)$ ≈ 44.6 bits) desplaza casi toda la mantisa de 53 bits de los datos originales de la fila 6 fuera de registro,
+ destruyendo la información la información de los bits bajos por cancelación y redondeo.
+
+ Con pivoteo parcial escalado, cada fila se normaliza por su máximo absoluto inicial $s_i$, garantizando que las razones $|a^(k)_(ik)|/s_i$ estén acotadas y que los multiplicadores
+ no amplifiquen errores de redondeo a través de las 11 etapas.
+
+ 6.- Condicionamiento
+
+ - Estimación de $k_2$(A): Mediante valores singulares en src/verificacion.py (np.linalg.cond(A, 2)), se obtiene $k_2$(A) ≈ $3.08 x 10^13$. Este valor elevado responde directamente
+ a la casi dependencia lineal de la fila 7 respecto a las filas 3 y 5 (perturbación de orden 10^-4).
+
+ - Cota clásica de error relativo: En doble precisión ($ε_máq ≈ 2.22 x 10^-16$):
+
+ $(||δx||_2)/(||x||_2) < k_2(A).ε_máq ≈ (3.08 x 10 ^13)(2.22 x 10^-16) ≈ 6.84 x 10^-3$
+
+ - Por qué la cota resulta pesimista: La desigualdad $k(A)ε modela el peor escenario posible donde tanto la matriz A como el vector b
+ sufren perturbaciones alineadas exactamente con el vector singular asociado al valor singular mínimo $\sigma_{12}$. 
+ En nuestra ejecución con pivoteo parcial escalado, la estabilidad hacia atrás del algoritmo
+ mantiene el error hacia atrás pequeño y los errores de redondeo no se alinean en su totalidad con la dirección más sensible, permitiendo
+ recuperar entre 9 y 12 dígitos significativos en lugar de los ≈ 2 dígitos que augura la cota pesimista.
+
+ 7.- Resultados
+ A continuación se reportan las 12 incógnitas obtenidas tras la eliminación con pivoteo parcial
+ escalado y refinamiento iterativo, junto con la cantidad de dígitos significativos defendibles frente a la solución de referencia:
+
+
+ 8.- Verificación
+
+ - Residuo en precisión extendida: Usando el módulo decimal de Python con 80 dígitos de precisión sobre los datos exactos sin truncar de "datos/matriz_a.csv"  y "datos/vector_b.csv",
+ se evaluó $r = b - Ax:$
+
+ - Norma infinito del residuo inicial $(||r^(0)||_∞)$: 
+
+ -Refinamiento iterativo: Se ejecutó el esquema $Aδx = r^(0)$ usando la factorización con pivoteo parcial escalado y corrigiendo $x^(1) = x^(0) + δx$.
+ - Norma infinito tras refinamiento $(||r^(1)||_∞)$:
+
+ - Observación:
+
+ -Contraste de control: La comparación contra numpy.linalg.solve(a, b) arroja una diferencia
+ en norma euclidiana $||x_propio - x_numpy||_2 $ = , confirmando la validez del a implementación propia.
+
+ 9.- Conclusiones:
+
+ - Compromiso costo/exactitud: Se eligió la eliminación gaussiana con pivoteo parcial escalado.
+ El costo adicional respecto a la eliminación sin pivoteo se limita a 77 comparaciones escaladas e
+ intercambios de punteros/filas (sin aumentar el orden cúbico $(2/3)n^3$ de operaciones aritméticas), pero
+ evita la pérdida catastrófica de 44 bits de mantisa provocada por el pivote $a_1,1 = 1.3407 x 10^-8$
+
+ - Escalamiento a n = 1000: Con n = 1000, el costo de la eliminación densa crece a $(2/3)(1000)^3 ≈ 6.67 x 10^8$ FLOP's y los intercambios físicos de filas 
+ de filas en memoria serían costosos. En ese escenario: 
+
+ 1- Se utilizaría un vector de permutación de índices en lugar de copiar filas completas en 
+ memoria. 
+ 2- Se emplearían operaciones vectorizadas por bloques (BLAS nivel 3/ factorización LU con pivoteo) para aprovechar la caché del procesador.
+
+ 3- Si la matriz fuera dispersa, se migraría a métodos directos dispersos (con reordenamiento para minimizar fill-in) o métodos iterativos precondicionados.
+
+ 10.- Reproducibilidad
+
+ - Versión de Python: Python 3.10 + Python 3.14.10
+ - Librerías utilizadas: numpy==2.1.3 (y módulos estándar decimal, csv, Pathlib).
+ - Comando de ejecución:
+
+    python src/main.py
+
+- Declaración de uso de asistentes de IA:  El uso de IA se establecio principalmente para realizar
+borradores y códigos de referencia, lo que ayudo a guiar la idea general del trabajo.
+Procedimos a observar su funcionamiento, y fue tanto modificado como adaptado a nuestras necesidades.
+Finalmente, fue usado como último recurso cuando surgieron errores en líneas específicas y dar algunos retoques finales.
