@@ -125,6 +125,15 @@ def main() -> None:
     ruta_residuo.write_text("\n".join(lineas_residuo) + "\n", encoding="utf-8")
 
     print("Ejecucion completada. Archivos generados en 'resutados/'.")
+    """
+    print("--- Estadísticas Sin Pivoteo ---")
+    print(f"max_multiplicador: {stats_sin_piv['max_multiplicador']:.6e}")
+    print(f"factor_crecimiento: {stats_sin_piv['factor_crecimiento']:.6e}")
+
+    print("--- Estadísticas Pivoteo Parcial Escalado ---")
+    print(f"max_multiplicador: {stats_piv['max_multiplicador']:.6e}")
+    print(f"factor_crecimiento: {stats_piv['factor_crecimiento']:.6e}")
+    """
 
 
 
