@@ -46,3 +46,16 @@ i y el término independiente b i. No se recalcula por columna.
 - Factorización única sin inversión: Se trabaja directamente sobre una copia de a y b sin construir A^-1
 - Pivoteo parcial escalado: Antes de eliminar en el paso k, se calcula el factor de escala inicial de cada fila s i = max 1≤j≤n |aij| y se selecciona la fila pivote p ≥ k
 que maximiza la razón $|(a_(pk)^(k))|/s_p$. Esto neutraliza las diferencias de escala entre filas antes de dividir.
+
+4.- Conteo de operaciones:
+
+Convención declarada:
+
+- 1 FLOP = 1 operación aritmética elemental en punto flotante (suma, resta, multiplicación o división).
+- Las comparaciones de búsqueda de pivote y los intercambios de fila se contabilizan por separado como
+sobrecosto de estabilidad, sin mezclarlos con los FLOP's aritméticos.
+- El conteo se extrae directamente de la instrumentación en src/conteo.py (ContadorFlops).
+
+Tabla paso a paso (n = 12)
+
+
