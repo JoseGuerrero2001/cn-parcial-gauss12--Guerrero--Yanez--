@@ -135,10 +135,6 @@ def main() -> None:
     print(f"factor_crecimiento: {stats_piv['factor_crecimiento']:.6e}")
     """
 
-
-
-
-
 if __name__ == "__main__":
     main()
 
