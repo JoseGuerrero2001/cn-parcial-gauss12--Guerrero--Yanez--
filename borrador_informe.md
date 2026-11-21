@@ -59,3 +59,18 @@ sobrecosto de estabilidad, sin mezclarlos con los FLOP's aritméticos.
 Tabla paso a paso (n = 12)
 
 
+Comparación con cotas teóricas
+-Mínimo teórico asintótico de eliminación $((2/3)n^3):(2(12)^3)/3=1152 flops.$
+-Cota de referencia completa (eliminación + b + sustitución): ≈ 1486 flops. Nuestro conteo instrumentado se ubica dentro del margen
+exigido $(±10%)$, sin trabajo redundante.
+
+5.- Análisis de mantisa y pivoteo
+
+Comparación cuantitativa entre corridas
+
+Indicador Corrida 1: Sin pivoteo  Corrida 2: Pivoteo parcial escalado
+
+
+Por qué el pivote $a_1,1$ es inaceptable y pérdida de bits
+
+En el paso k = 1 sin pivoteo, al eliminar $a_6,1$ = 3.69040121 x 10^5 usando $a_1,1$ = 1.3407 x 10^-8, el multiplicador alcanza $m_6,1$ ≈
